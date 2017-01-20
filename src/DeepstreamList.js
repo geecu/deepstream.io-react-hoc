@@ -35,13 +35,16 @@ export default class DeepstreamList extends Component {
     }
   }
 
+  get ds() {
+    return this.props.ds || this.context.ds;
+  }
+
   subscribe() {
     const {
-      ds,
       dsList,
       } = this.props;
 
-    this.list = ds.record.getList( dsList );
+    this.list = this.ds.record.getList( dsList );
 
     /*
     this.list.whenReady(list => {
@@ -68,11 +71,10 @@ export default class DeepstreamList extends Component {
 
   handleAddEntry = (entryId, idx) => {
     const {
-      ds,
       dsList,
       } = this.props;
 
-    entryId = entryId || `${dsList}/${ds.getUid()}`
+    entryId = entryId || `${dsList}/${this.ds.getUid()}`
 
     this.list.addEntry(entryId, idx);
   }
@@ -96,8 +98,12 @@ export default class DeepstreamList extends Component {
 }
 
 DeepstreamList.propTypes = {
-  ds: PropTypes.object.isRequired,
+  ds: PropTypes.object,
   dsList: PropTypes.string.isRequired,
+}
+
+DeepstreamList.contextTypes = {
+  ds: PropTypes.object,
 }
 
 DeepstreamList.defaultProps = {

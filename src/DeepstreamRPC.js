@@ -35,6 +35,10 @@ class DeepstreamRPC extends Component {
     }
   }
 
+  get ds() {
+    return this.props.ds || this.context.ds;
+  }
+
   makeCall(props) {
     props = props || this.props;
 
@@ -43,12 +47,8 @@ class DeepstreamRPC extends Component {
       dsData,
       } = props;
 
-    const {
-      ds,
-      } = this.context;
-
     this.justCalled = true;
-    ds.rpc.make(dsCall, dsData, this.callEnded);
+    this.ds.rpc.make(dsCall, dsData, this.callEnded);
     delete this.justCalled;
   }
 
@@ -61,7 +61,6 @@ class DeepstreamRPC extends Component {
 
   render() {
     const {
-      ds,
       dsCall,
       dsData,
       children,
@@ -80,7 +79,7 @@ class DeepstreamRPC extends Component {
     const onlyChild = Children.toArray(children).filter(child => child)[0];
 
     return React.cloneElement(Children.only(onlyChild), {
-      ds,
+      ds:  this.ds,
       rpcResult: result,
       ...otherProps,
       ...onlyChild.props,

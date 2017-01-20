@@ -46,13 +46,16 @@ export default class DeepstreamRecord extends Component {
     }
   }
 
+  get ds() {
+    return this.props.ds || this.context.ds;
+  }
+
   createRecord = () => {
     const {
-      ds,
       dsRecord,
       } = this.props;
 
-    this.record = ds.record.getRecord(dsRecord);
+    this.record = this.ds.record.getRecord(dsRecord);
 
     this.justCreated = true;
     this.record.subscribe(this.handleServerChange, true);
@@ -105,7 +108,6 @@ export default class DeepstreamRecord extends Component {
       record,
       } = this.state;
     const {
-      ds,
       dsRecord,
       children,
       ...otherProps
@@ -132,6 +134,10 @@ export default class DeepstreamRecord extends Component {
 }
 
 DeepstreamRecord.propTypes = {
-  ds: PropTypes.object.isRequired,
+  ds: PropTypes.object,
   dsRecord: PropTypes.string.isRequired,
+}
+
+DeepstreamRecord.contextTypes = {
+  ds: PropTypes.object,
 }
