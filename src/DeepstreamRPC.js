@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import React, {Children, Component} from 'react';
 
 import {
+  onConnect,
   isServer,
 } from './utils';
 
@@ -23,7 +24,7 @@ class DeepstreamRPC extends Component {
   }
 
   componentDidMount() {
-    this.makeCall();
+    onConnect(this.ds, this.makeCall);
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
@@ -40,7 +41,7 @@ class DeepstreamRPC extends Component {
     return this.props.ds || this.context.ds;
   }
 
-  makeCall(props) {
+  makeCall = (props) => {
     props = props || this.props;
 
     const {

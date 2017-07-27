@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {Children, Component} from 'react';
 import {
+  onConnect,
   isServer,
 } from './utils';
 
@@ -20,7 +21,7 @@ export default class DeepstreamList extends Component {
   }
 
   componentDidMount() {
-    this.subscribe();
+    onConnect(this.ds, this.subscribe);
   }
 
   componentWillUnmount() {
@@ -40,7 +41,7 @@ export default class DeepstreamList extends Component {
     return this.props.ds || this.context.ds;
   }
 
-  subscribe() {
+  subscribe = () => {
     const {
       dsList,
       } = this.props;

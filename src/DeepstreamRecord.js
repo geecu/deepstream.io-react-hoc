@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React, {Children, Component} from 'react';
 import {
+  onConnect,
   isServer,
 } from './utils';
 
@@ -22,7 +23,7 @@ export default class DeepstreamRecord extends Component {
 
   componentDidMount() {
     //console.log(this._reactInternalInstance._debugID, 'DR did mount', this.props.dsRecord);
-    this.createRecord();
+    onConnect(this.ds, this.createRecord);
   }
 
   componentWillUnmount() {
